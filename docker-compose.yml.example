@@ -1,0 +1,43 @@
+version: "3.9"
+services:
+  php-apache:
+    ports:
+      - "80:80"
+    build: 
+      context: './build/php'
+    environment:
+      MYSQL_HOST: "db"
+      MYSQL_ROOT_PASSWORD: "yourSecurePassword"
+      MYSQL_DATABASE: "yourDatabaseName"
+      MYSQL_USER: "yourMysqlUser"
+      MYSQL_PASSWORD: "yourSecurePassword"
+    volumes:
+      - ./app:/var/www/html
+  db:
+    image: mysql:5.7
+    container_name: db
+    environment:
+      MYSQL_HOST: "db"
+      MYSQL_ROOT_PASSWORD: "yourSecurePassword"
+      MYSQL_DATABASE: "yourDatabaseName"
+      MYSQL_USER: "yourMysqlUser"
+      MYSQL_PASSWORD: "yourSecurePassword"
+    ports:
+      - "6033:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: pma
+    links:
+      - db
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8081:80
+volumes:
+  app:
+  dbdata:
