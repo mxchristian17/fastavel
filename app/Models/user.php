@@ -10,7 +10,7 @@ class User
 {
     protected $fillable = ['Name', 'Surname', 'Username', 'Mail', 'Password'];
     
-    /*public function __construct(?int $id = null, ?string $name = null)
+    public function __construct(?int $id = null, ?string $name = null)
     {
         global $mysqli;
         global $useUsers;
@@ -19,6 +19,9 @@ class User
         $this->name = $useUsers ? $name : '';
     
     }
-    */
-    
+
+    public function getData() {
+        return DbQuery::joinOne('users', $this->id, 'users_config');
+    }
+
 }

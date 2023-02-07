@@ -22,7 +22,7 @@ class DbQuery
 
     }
 
-    static function hasOne(string  $parentTable, int $parentTableId, string $childrenTable): ?array
+    static function joinOne(string  $parentTable, int $parentTableId, string $childrenTable): ?array
     {
 
         global $mysqli;

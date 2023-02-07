@@ -10,8 +10,7 @@ class View
 {
     static public function show($address, $layout)
     {
-        global $appName;
-
+        global $global;
         $routeContent = "views/$address.php";
         require_once("layouts/$layout.php");
         exit;
