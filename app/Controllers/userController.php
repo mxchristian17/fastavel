@@ -6,16 +6,31 @@ namespace Controllers\UserController;
 
 use Models\DbQuery\{DbQuery};
 use Models\User\User;
+use Routes\Routes\Route;
 
 class UserController {
     public function __construct(?int $id) {
         $this->id = $id;
         $this->name = '';
         $this->surname = '';
+        $this->darkMode = true;
         
     }
 
-    public function changeLightMode() {
+    static public function changeLightMode():? bool {
+
+        global $global;
+        if(isset($_SESSION['user']))
+        {
+            DbQuery::update('users_config',["DarkMode" => intval(!$_SESSION['user']['DarkMode'])], intval($_SESSION['user']['ID']));
+            $global['darkMode'] = !$_SESSION['user']['DarkMode'];
+        } else {
+            $global['darkMode'] = !$_SESSION['user']['DarkMode'];
+            $_SESSION['user']['DarkMode'] = !$_SESSION['user']['DarkMode'];
+        }
+
+        Route::goBack();
+        return true;
 
     }
 

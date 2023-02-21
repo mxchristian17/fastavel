@@ -13,18 +13,35 @@ class LoginController {
     }
 
     static public function login() {
-        $data = $_POST;
+        $inputData = $_POST;
         if(
-            $data['_token'] !== $_SESSION['_token'] OR
-            !is_string($data['email']) OR
-            !is_string($data['password'])
+            $inputData['_token'] !== $_SESSION['_token'] OR
+            !is_string($inputData['email']) OR
+            !is_string($inputData['password'])
         ) View::show('404', 'errorLayout');
 
-        if(self::validateEmail($data['email'])) $userData = DbQuery::first('users', "mail = '".$data['email']."'");
-        //var_dump($userData);
+        if(self::validateEmail($inputData['email'])) $userId = DbQuery::firstId('users', "mail = '".$inputData['email']."'");
+
+        if($userId === null) View::show('login', 'loginLayout', [true]);
+        
+        $userData = DbQuery::joinOne('users', $userId, 'users_config');
+        
+        if($userData['Password'] !== $inputData['password']) View::show('login', 'loginLayout', [true]);
+        
         $_SESSION['userId'] = $userData['ID'];
-        $_SESSION['darkMode'] = $userData['darkMode'];
+        $_SESSION['darkMode'] = $userData['DarkMode'];
+        $_SESSION['user'] = $userData;
+
+        unset($userId);
         View::show('home', 'layout');
+        return;
+    }
+
+    static public function logout() {
+        session_destroy();
+        session_start();
+        $_SESSION['_token'] = bin2hex(random_bytes(16));
+        View::show('login', 'loginLayout', []);
         return;
     }
 

@@ -8,7 +8,7 @@ use Models\DbQuery\{DbQuery};
 
 class View
 {
-    static public function show($address, $layout)
+    static public function show(string $address,string  $layout,array $data = [])
     {
         global $global;
         $routeContent = "views/$address.php";

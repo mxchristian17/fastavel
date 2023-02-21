@@ -24,13 +24,13 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-md <?php echo $global["navBarColor"]; ?>">
+        <nav class="navbar navbar-expand-md <?php echo $global["darkMode"] ? "navbar-dark bg-dark" : "navbar-light bg-light"; ?>">
             <div class="container-lg">
                 <a class="navbar-brand" href="./"><?php echo $global["appName"]; ?></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="collapse navbar-collapse d-flex" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link" href="./">Home</a>
@@ -47,6 +47,10 @@
                         </a>
                         </li>
                     </ul>
+                    <div class="navbar-nav ms-auto me-2">
+                        <div class="navbar-text"><?php echo $_SESSION['user']['Name']; ?></div>
+                        <a class="nav-link text-primary" href="/logout">Logout</a>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -55,7 +59,7 @@
         <!-- Content goes here -->
         <?php include $routeContent; ?>
     </main>
-    <footer class="<?php echo $global["footerColor"]; ?> footer">
+    <footer class="<?php echo $global["darkMode"] ? "bg-dark text-light" : "bg-light text-dark"; ?> footer">
         <p class="text-end px-3">Copyright © <?php echo date("Y"); ?> <?php echo $global["appName"]; ?></p>
     </footer>    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
