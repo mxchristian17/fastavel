@@ -9,7 +9,7 @@ use Views\{View};
 
 class HomeController {
     static public function showHome($id) {
-        View::show('home', 'layout');
+        View::show('home', 'layout', [$id]);
     }
 
 
